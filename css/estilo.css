@@ -56,6 +56,10 @@ body{
     background: rgb(148, 192, 148);
 }
 
+#menu .ativo{
+    background: rgb(202, 212, 250);
+}
+
 #main {
     width: 100%;
     height: auto;

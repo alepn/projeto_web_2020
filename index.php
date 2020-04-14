@@ -1,3 +1,16 @@
+<?php
+
+// if(isset($_GET['pagina'])){
+//   $pagina = $_GET['pagina'];
+// }
+// else{
+//   $pagina = 'inicio';
+// }
+
+$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 'inicio';
+
+?>
+
 <html>
 
   <head>
@@ -27,9 +40,9 @@
       <div id="menu">
 
         <ul>
-          <li><a href="#">Início</a></li>
-          <li><a href="./paginas/sobre.html">Sobre</a></li>
-          <li><a href="./paginas/contato.html">Contato</a></li>
+          <li <?= ($pagina == 'inicio')?'class="ativo"':'' ?>><a href="?pagina=inicio">Início</a></li>
+          <li <?= ($pagina == 'sobre')?'class="ativo"':'' ?>><a href="?pagina=sobre">Sobre</a></li>
+          <li <?= ($pagina == 'contato')?'class="ativo"':'' ?>><a href="?pagina=contato">Contato</a></li>
         </ul>
 
       </div>
@@ -37,15 +50,11 @@
       <!-- Área Principal -->
       <div id="main">
 
-        <div id="cols">
-          <div class="col">
-            <h1>Página Inicial</h1>
+        <?php
 
-            <p>
-              Esta é a pagina de início do site.
-            </p>
-          </div>
-        </div>
+          include("./paginas/$pagina.php");
+        
+        ?>
 
       </div>
 
