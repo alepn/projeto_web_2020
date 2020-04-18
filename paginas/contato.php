@@ -6,7 +6,7 @@
 
     <div id="formulario">
 
-        <form>
+        <form action="?pagina=processar_formulario" method="POST">
         <div>
             <label>Nome:</label>
             <input type="text" name="nome" placeholder="Digite seu nome" />

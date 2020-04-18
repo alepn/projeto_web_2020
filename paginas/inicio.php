@@ -1,4 +1,4 @@
-<div id="cols">
+<div class="row">
     <div class="col">
         <h1>Início</h1>
 
