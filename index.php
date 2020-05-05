@@ -1,5 +1,7 @@
 <?php
 
+require("config/conexao_bd.php");
+
 // if(isset($_GET['pagina'])){
 //   $pagina = $_GET['pagina'];
 // }
@@ -66,7 +68,22 @@ $pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 'inicio';
       <!-- Breadcrumbs -->
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item active" aria-current="page">Início</li>
+          <?php
+            if($pagina == 'inicio'){
+              echo '<li class="breadcrumb-item active" aria-current="page">Início</li>';
+            }
+            else{
+              echo '<li class="breadcrumb-item" aria-current="page"><a href="?pagina=inicio">Início</a></li>';            
+          
+              if($pagina == 'sobre'){
+                echo '<li class="breadcrumb-item active" aria-current="page">Sobre</li>';
+              }
+              else{
+                echo '<li class="breadcrumb-item active" aria-current="page">Contato</li>';
+              }
+
+            }
+          ?>
         </ol>
       </nav>
 

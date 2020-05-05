@@ -23,7 +23,9 @@
                 <label>Mensagem:</label>
                 <textarea name="mensagem" class="form-control" required placeholder="Digite sua mensagem..."></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Enviar</button>
+            <div class="form-button">
+                <button type="submit" class="btn btn-primary">Enviar</button>
+            </div>
         </form>
 
     </div>

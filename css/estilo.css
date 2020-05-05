@@ -21,3 +21,11 @@
 .navbar{
     margin-bottom: 20px;
 }
+
+.carousel-caption div{
+    background: rgb(145, 141, 141);
+}
+
+form .form-button{
+    text-align: center;
+}

@@ -1,8 +1,23 @@
 <?php
 
+$sql = "INSERT INTO 
+        contato (nome, telefone, email, mensagem) 
+        VALUES ('teste','teste','teste','teste')";
+
+if( mysqli_query($link, $sql) === TRUE ){
+  echo "Dados inseridos com sucesso!";
+}
+
 if(isset($_POST['nome'])){
 
 ?>
+
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  Formulário enviado com sucesso!
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 
 <table class="table">
   <thead>
@@ -32,6 +47,11 @@ if(isset($_POST['nome'])){
 </table>
 
 <?php
+
+}
+else{
+  
+  header("Location: ?pagina=inicio");
 
 }
 
