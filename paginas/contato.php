@@ -6,7 +6,7 @@
 
         <p>Preencha o formulário de contato abaixo:</p>
 
-        <form action="?pagina=processar_formulario" method="POST">
+        <form action="?pagina=crud_contato/registrar_contato" method="POST">
             <div class="form-group">
                 <label>Nome:</label>
                 <input type="text" class="form-control" name="nome" required placeholder="Digite seu nome" />
