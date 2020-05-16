@@ -2,9 +2,9 @@
 
     if(isset($_GET["deletar_contato"])){
 
-        $sql = "DELETE FROM contato WHERE id = " . $_GET["deletar_contato"];
+        $objContato = new Contato($_GET["deletar_contato"]);
 
-        if(mysqli_query($link, $sql) === TRUE){
+        if( $objContato->deletar() ){
             echo '
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 Contato deletado com sucesso!

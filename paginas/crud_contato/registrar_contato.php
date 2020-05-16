@@ -5,16 +5,15 @@
 
       if(isset($_POST['nome'])){
 
-        $nome = $_POST['nome'];
-        $telefone = $_POST['telefone'];
-        $email = $_POST['email'];
-        $mensagem = $_POST['mensagem'];
+        $objContato = new Contato(
+          NULL,
+          $_POST['nome'],
+          $_POST['telefone'],
+          $_POST['email'],
+          $_POST['mensagem']
+        );
 
-        $sql = "INSERT INTO 
-                  contato (nome, telefone, email, mensagem) 
-                  VALUES ('$nome','$telefone','$email','$mensagem')";
-
-        if( mysqli_query($link, $sql) === TRUE ){
+        if( $objContato->salvar() ){
 
       ?>
 

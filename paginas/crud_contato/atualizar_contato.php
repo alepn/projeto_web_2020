@@ -5,22 +5,15 @@
 
     if(isset($_GET['id_contato']) && isset($_POST['nome'])){
 
-        $id_contato = $_GET['id_contato'];
+        $objContato = new Contato(
+          $_GET['id_contato'],
+          $_POST['nome'],
+          $_POST['telefone'],
+          $_POST['email'],
+          $_POST['mensagem']
+        );
 
-        $nome = $_POST['nome'];
-        $telefone = $_POST['telefone'];
-        $email = $_POST['email'];
-        $mensagem = $_POST['mensagem'];
-
-        $sql = "UPDATE contato SET 
-                nome='$nome',
-                telefone='$telefone',
-                email='$email',
-                mensagem='$mensagem' 
-                WHERE id = $id_contato
-                ";
-
-        if( mysqli_query($link, $sql) === TRUE ){
+        if( $objContato->salvar() ){
 
       ?>
 
