@@ -27,9 +27,7 @@
 
     }
 
-    $sql = "SELECT * FROM contato";
-
-    $rows = mysqli_query($link, $sql);
+    $vContatos = Contato::get_contatos();
 
 ?>
 
@@ -51,30 +49,37 @@
             <tbody>
 
                 <?php 
-                    while($row = mysqli_fetch_assoc($rows)){
+                    foreach($vContatos as $objContato){
                 ?>
 
                     <tr>
-                        
-                        <?php
 
-                            foreach($row as $valor){
-                                echo "<td class='align-middle'>$valor</td>";
-                            }
-
-                        ?>
-
-                        <td>
-                            <a href="?pagina=crud_contato/atualizar_contato&id_contato=<?= $row['id'] ?>" class="btn btn-info">Editar</a>
+                        <td class='align-middle'>
+                            <?= $objContato->get_id() ?>
+                        </td>
+                        <td class='align-middle'>
+                            <?= $objContato->get_nome() ?>
+                        </td>
+                        <td class='align-middle'>
+                            <?= $objContato->get_telefone() ?>
+                        </td>
+                        <td class='align-middle'>
+                            <?= $objContato->get_email() ?>
+                        </td>
+                        <td class='align-middle'>
+                            <?= $objContato->get_mensagem() ?>
                         </td>
                         <td>
-                            <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal<?= $row['id'] ?>">Excluir</a>
+                            <a href="?pagina=crud_contato/atualizar_contato&id_contato=<?= $objContato->get_id() ?>" class="btn btn-info">Editar</a>
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal<?= $objContato->get_id() ?>">Excluir</a>
                         </td>
 
                     </tr>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="confirmDeleteModal<?= $row['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="confirmDeleteModal<?= $objContato->get_id() ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                             <div class="modal-header">
@@ -84,11 +89,11 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                Deseja deletar o contato <b><?= $row['nome'] ?></b>?
+                                Deseja deletar o contato <b><?= $objContato->get_nome() ?></b>?
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <a href="?pagina=crud_contato/contatos_registrados&deletar_contato=<?= $row['id'] ?>" class="btn btn-danger">Deletar</a>
+                                <a href="?pagina=crud_contato/contatos_registrados&deletar_contato=<?= $objContato->get_id() ?>" class="btn btn-danger">Deletar</a>
                             </div>
                             </div>
                         </div>

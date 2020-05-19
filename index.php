@@ -1,6 +1,7 @@
 <?php
 
-require("config/conexao_bd.php");
+require("config/config.php");
+require("classes/conexao_bd.class.php");
 require("classes/contato.class.php");
 
 // if(isset($_GET['pagina'])){

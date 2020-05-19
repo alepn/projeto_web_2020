@@ -49,11 +49,9 @@
 
       if(isset($_GET['id_contato'])){
 
-        $sql = "SELECT * FROM contato WHERE id = " . $_GET['id_contato'];
+        $objContato = Contato::get_contato_por_id($_GET['id_contato']);
 
-        $rows = mysqli_query($link, $sql);
-
-        if($row = mysqli_fetch_assoc($rows)){
+        if( $objContato ){
 
     ?>
 
@@ -61,22 +59,22 @@
 
           <p>Atualize os dados do formulário de contato abaixo:</p>
 
-          <form action="?pagina=crud_contato/atualizar_contato&id_contato=<?= $_GET['id_contato'] ?>" method="POST">
+          <form action="?pagina=crud_contato/atualizar_contato&id_contato=<?= $objContato->get_id() ?>" method="POST">
               <div class="form-group">
                   <label>Nome:</label>
-                  <input type="text" class="form-control" name="nome" required placeholder="Digite seu nome" value="<?= $row['nome'] ?>" />
+                  <input type="text" class="form-control" name="nome" required placeholder="Digite seu nome" value="<?= $objContato->get_nome() ?>" />
               </div>
               <div class="form-group">
                   <label>Telefone:</label>
-                  <input type="text" class="form-control" name="telefone" required placeholder="Digite seu telefone" value="<?= $row['telefone'] ?>" />
+                  <input type="text" class="form-control" name="telefone" required placeholder="Digite seu telefone" value="<?= $objContato->get_telefone() ?>" />
               </div>
               <div class="form-group">
                   <label>E-mail:</label>
-                  <input type="email" class="form-control" name="email" required placeholder="Digite seu e-mail" value="<?= $row['email'] ?>" />
+                  <input type="email" class="form-control" name="email" required placeholder="Digite seu e-mail" value="<?= $objContato->get_email() ?>" />
               </div>
               <div class="form-group">
                   <label>Mensagem:</label>
-                  <textarea name="mensagem" class="form-control" required placeholder="Digite sua mensagem..."><?= $row['mensagem'] ?></textarea>
+                  <textarea name="mensagem" class="form-control" required placeholder="Digite sua mensagem..."><?= $objContato->get_mensagem() ?></textarea>
               </div>
               <div class="form-button">
                   <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#confirmUpdateModal">Salvar</a>
@@ -107,6 +105,12 @@
           </form>
 
     <?php
+        }
+        else{
+          echo "
+            <center>
+              <h2>Contato não encontrado!<h2>
+            </center>";
         }
       }
       else{
