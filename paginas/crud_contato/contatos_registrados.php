@@ -55,31 +55,31 @@
                     <tr>
 
                         <td class='align-middle'>
-                            <?= $objContato->get_id() ?>
+                            <?= $objContato->id ?>
                         </td>
                         <td class='align-middle'>
-                            <?= $objContato->get_nome() ?>
+                            <?= $objContato->nome ?>
                         </td>
                         <td class='align-middle'>
-                            <?= $objContato->get_telefone() ?>
+                            <?= $objContato->telefone ?>
                         </td>
                         <td class='align-middle'>
-                            <?= $objContato->get_email() ?>
+                            <?= $objContato->email ?>
                         </td>
                         <td class='align-middle'>
-                            <?= $objContato->get_mensagem() ?>
+                            <?= $objContato->mensagem ?>
                         </td>
                         <td>
-                            <a href="?pagina=crud_contato/atualizar_contato&id_contato=<?= $objContato->get_id() ?>" class="btn btn-info">Editar</a>
+                            <a href="?pagina=crud_contato/atualizar_contato&id_contato=<?= $objContato->id ?>" class="btn btn-info">Editar</a>
                         </td>
                         <td>
-                            <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal<?= $objContato->get_id() ?>">Excluir</a>
+                            <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal<?= $objContato->id ?>">Excluir</a>
                         </td>
 
                     </tr>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="confirmDeleteModal<?= $objContato->get_id() ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="confirmDeleteModal<?= $objContato->id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                             <div class="modal-header">
@@ -89,11 +89,11 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                Deseja deletar o contato <b><?= $objContato->get_nome() ?></b>?
+                                Deseja deletar o contato <b><?= $objContato->nome ?></b>?
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <a href="?pagina=crud_contato/contatos_registrados&deletar_contato=<?= $objContato->get_id() ?>" class="btn btn-danger">Deletar</a>
+                                <a href="?pagina=crud_contato/contatos_registrados&deletar_contato=<?= $objContato->id ?>" class="btn btn-danger">Deletar</a>
                             </div>
                             </div>
                         </div>

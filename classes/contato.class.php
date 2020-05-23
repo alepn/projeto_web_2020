@@ -16,29 +16,17 @@
             $this->mensagem = $mensagem;
         }
 
-        function get_id(){
-            return $this->id;
+        function __get($atributo){
+            return $this->$atributo;
         }
 
-        function get_nome(){
-            return $this->nome;
+        function __set($atributo, $valor){
+            $this->$atributo = $valor;
         }
 
-        function set_nome(){
-            return $this->nome;
+        function __toString(){
+            return $this->nome . " (" . $this->id . ")";
         }
-
-        function get_telefone(){
-            return $this->telefone;
-        }
-
-        function get_email(){
-            return $this->email;
-        }
-
-        function get_mensagem(){
-            return $this->mensagem;
-        }        
 
         function salvar(){
             $objConexao = new ConexaoBD();
@@ -48,27 +36,47 @@
             if($this->id === NULL){
                 $sql = "INSERT INTO 
                     contato (nome, telefone, email, mensagem) 
-                    VALUES (
-                        '$this->nome',
-                        '$this->telefone',
-                        '$this->email',
-                        '$this->mensagem'
-                        )";
+                    VALUES (:nome,:telefone,:email,:mensagem)";
 
-                if( mysqli_query($link, $sql) === TRUE ){
-                    $this->id = mysqli_insert_id($link);
+                if( $stmt = $link->prepare($sql) ){
+                    
+                    $stmt->bindParam(":nome", $this->nome, PDO::PARAM_STR);
+                    $stmt->bindParam(":telefone", $this->telefone, PDO::PARAM_STR);
+                    $stmt->bindParam(":email", $this->email, PDO::PARAM_STR);
+                    $stmt->bindParam(":mensagem", $this->mensagem, PDO::PARAM_STR);
+
+                    $stmt->execute();
+                    
+                    $stmt->closeCursor();
+
+                    $this->id = $link->lastInsertId();
+
                     return TRUE;
                 }
             }
             else{
                 $sql = "UPDATE contato SET 
-                        nome='$this->nome',
-                        telefone='$this->telefone',
-                        email='$this->email',
-                        mensagem='$this->mensagem' 
-                        WHERE id = $this->id";
+                        nome=:nome,
+                        telefone=:telefone,
+                        email=:email,
+                        mensagem=:mensagem
+                        WHERE id = :id";
 
-                return mysqli_query($link, $sql);
+                if( $stmt = $link->prepare($sql) ){
+                                    
+                    $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
+                    $stmt->bindParam(":nome", $this->nome, PDO::PARAM_STR);
+                    $stmt->bindParam(":telefone", $this->telefone, PDO::PARAM_STR);
+                    $stmt->bindParam(":email", $this->email, PDO::PARAM_STR);
+                    $stmt->bindParam(":mensagem", $this->mensagem, PDO::PARAM_STR);
+
+                    $stmt->execute();
+                    
+                    $stmt->closeCursor();
+
+                    return TRUE;
+                }
+
             }
             
             return FALSE;
@@ -79,43 +87,57 @@
             
             $link = $objConexao->get_link();
 
-            $sql = "DELETE FROM contato WHERE id = " . $this->id;
+            $sql = "DELETE FROM contato WHERE id = :id";
 
-            return mysqli_query($link, $sql);
+            if( $stmt = $link->prepare($sql) ){
+                                    
+                $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
+
+                $stmt->execute();
+                
+                $stmt->closeCursor();
+
+                return TRUE;
+            }
+
+            return FALSE;
         }
 
-        static function get_contatos($filtrar_por=NULL, $ordenar_por=NULL){
+        static function get_contatos(){
             $objConexao = new ConexaoBD();
             
             $link = $objConexao->get_link();
 
-            $sql = "SELECT * FROM contato";
-
-            if($filtrar_por){
-                $sql .= " WHERE " . 
-                $filtrar_por[0] . " = '" . $filtrar_por[1] . "'";
-            }
-
-            if($ordenar_por){
-                $sql .= " ORDER BY " . $ordenar_por;
-            }
-
-            $rows = mysqli_query($link, $sql);
+            $sql = "SELECT id, nome, telefone, email, mensagem FROM contato";
 
             $vContatos = array();
 
-            while( $row = mysqli_fetch_assoc($rows) ){
+            if( $stmt = $link->prepare($sql) ){
 
-                $objContato = new Contato(
-                    $row['id'],
-                    $row['nome'],
-                    $row['telefone'],
-                    $row['email'],
-                    $row['mensagem']
-                );
+                $stmt->execute();
 
-                $vContatos[] = $objContato;
+                $stmt->bindColumn('id', $id);
+                $stmt->bindColumn('nome', $nome);
+                $stmt->bindColumn('telefone', $telefone);
+                $stmt->bindColumn('email', $email);
+                $stmt->bindColumn('mensagem', $mensagem);
 
+                while( $stmt->fetch(PDO::FETCH_BOUND) ){
+
+                    $objContato = new Contato(
+                        $id,
+                        $nome,
+                        $telefone,
+                        $email,
+                        $mensagem
+                    );
+    
+                    $vContatos[] = $objContato;
+
+                }
+
+                
+                $stmt->closeCursor();
             }
 
             return $vContatos;
@@ -126,22 +148,35 @@
             
             $link = $objConexao->get_link();
 
-            $sql = "SELECT * FROM contato WHERE id = " . $id;
-
-            $rows = mysqli_query($link, $sql);
+            $sql = "SELECT id, nome, telefone, email, mensagem FROM contato WHERE id = :id";
 
             $objContato = NULL;
 
-            if( $row = mysqli_fetch_assoc($rows) ){
+            if( $stmt = $link->prepare($sql) ){
+                                    
+                $stmt->bindParam(":id", $id, PDO::PARAM_INT);
 
-                $objContato = new Contato(
-                    $row['id'],
-                    $row['nome'],
-                    $row['telefone'],
-                    $row['email'],
-                    $row['mensagem']
-                );
+                $stmt->execute();
 
+                $stmt->bindColumn('id', $id);
+                $stmt->bindColumn('nome', $nome);
+                $stmt->bindColumn('telefone', $telefone);
+                $stmt->bindColumn('email', $email);
+                $stmt->bindColumn('mensagem', $mensagem);
+
+                if( $stmt->fetch(PDO::FETCH_BOUND) ){
+
+                    $objContato = new Contato(
+                        $id,
+                        $nome,
+                        $telefone,
+                        $email,
+                        $mensagem
+                    );
+    
+                }
+                
+                $stmt->closeCursor();
             }
 
             return $objContato;
