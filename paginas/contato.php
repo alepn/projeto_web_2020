@@ -13,7 +13,7 @@
             </div>
             <div class="form-group">
                 <label>Telefone:</label>
-                <input type="text" class="form-control" name="telefone" required placeholder="Digite seu telefone" />
+                <input type="text" class="form-control telefone" name="telefone" required placeholder="Digite seu telefone" />
             </div>
             <div class="form-group">
                 <label>E-mail:</label>

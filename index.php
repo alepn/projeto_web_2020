@@ -62,9 +62,22 @@ $pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 'inicio';
             </li>
             <li class="nav-item <?= ($pagina == 'contato')?'active':'' ?>">
               <a class="nav-link" href="?pagina=contato">Contato</a>
-            </li>            
+            </li>
+            <li class="nav-item <?= ($pagina == 'area_restrita')?'active':'' ?>">
+              <a class="nav-link" href="?pagina=area_restrita">Área restrita</a>
+            </li>
           </ul>
         </div>
+        <?php
+          if(isset($_SESSION['id'])){
+        ?>
+            <div>
+              Bem-vindo <?= $_SESSION['first_name'] ?>
+              (<a href="?pagina=logout">Sair</a>)
+            </div>
+        <?php
+          }
+        ?>
       </nav>
 
       <!-- Breadcrumbs -->
@@ -80,8 +93,11 @@ $pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 'inicio';
               if($pagina == 'sobre'){
                 echo '<li class="breadcrumb-item active" aria-current="page">Sobre</li>';
               }
-              else{
+              else if($pagina == 'contato'){
                 echo '<li class="breadcrumb-item active" aria-current="page">Contato</li>';
+              }
+              else{
+                echo '<li class="breadcrumb-item active" aria-current="page">Login</li>';
               }
 
             }
@@ -114,12 +130,17 @@ $pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 'inicio';
 
   </div>
 
-
-  <!-- Scripts JS do Bootstrap -->
+  <!-- Jquery -->
   <script src="./js/jquery-3.4.1.slim.min.js"></script>
+  
+  <!-- Scripts JS do Bootstrap -->
   <script src="./js/popper.min.js"></script>
   <script src="./js/bootstrap.min.js"></script>
-  
+
+  <!-- Scripts para mascaras de inputs -->
+  <script src="./js/jquery.mask.min.js"></script>
+  <script src="./js/mask.inputs.js"></script>
+
   </body>
 
 </html>
