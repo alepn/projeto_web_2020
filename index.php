@@ -13,6 +13,14 @@ require("classes/contato.class.php");
 
 $pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 'inicio';
 
+$bgColor = (isset($_COOKIE['bgColor'])) ? $_COOKIE['bgColor'] : '#FFF';
+
+if(isset($_POST['bgColor'])){
+  setcookie('bgColor', $_POST['bgColor'], time()+3600);
+  $bgColor = $_POST['bgColor'];
+}
+
+
 ?>
 
 <html>
@@ -30,7 +38,7 @@ $pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 'inicio';
 
   </head>
 
-  <body>
+  <body style="background: <?= $bgColor ?>;">
 
     <!-- Container Principal do Site -->
     <div class="container">
@@ -105,6 +113,12 @@ $pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 'inicio';
         </ol>
       </nav>
 
+      <div id="escolha-cor-bg">
+        <form method="POST">
+          <input type="color" name="bgColor" value="<?= $bgColor ?>" />
+        </form>
+      </div>
+
       <!-- Área Principal -->
       <div id="main">
 
@@ -140,6 +154,15 @@ $pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 'inicio';
   <!-- Scripts para mascaras de inputs -->
   <script src="./js/jquery.mask.min.js"></script>
   <script src="./js/mask.inputs.js"></script>
+
+  <script>
+
+      $( "#escolha-cor-bg input" ).change(function() {
+        document.cookie = "bgColor=" + $(this).val();
+        $('body').css('background', $(this).val());
+      });
+
+  </script>
 
   </body>
 

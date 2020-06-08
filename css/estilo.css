@@ -29,3 +29,12 @@
 form .form-button{
     text-align: center;
 }
+
+#escolha-cor-bg{
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+/* #escolha-cor-bg form{
+    
+} */
