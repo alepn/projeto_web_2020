@@ -150,7 +150,7 @@
 
             $sql = "SELECT id, nome, telefone, email, mensagem FROM contato WHERE id = :id";
 
-            $objContato = NULL;
+            $vContato = [];
 
             if( $stmt = $link->prepare($sql) ){
                                     
@@ -167,19 +167,62 @@
                 if( $stmt->fetch(PDO::FETCH_BOUND) ){
 
                     $objContato = new Contato(
-                        $id,
-                        $nome,
-                        $telefone,
-                        $email,
-                        $mensagem
-                    );
+                            $id,
+                            $nome,
+                            $telefone,
+                            $email,
+                            $mensagem
+                        );
+
+                    $vContato[] =  $objContato;
     
                 }
                 
                 $stmt->closeCursor();
             }
 
-            return $objContato;
+            return $vContato;
+        }
+
+        static function get_contatos_por_nome($nome){
+            $objConexao = new ConexaoBD();
+            
+            $link = $objConexao->get_link();
+
+            $sql = "SELECT id, nome, telefone, email, mensagem FROM contato WHERE nome LIKE :nome";            
+
+            $vContatos = [];
+
+            if( $stmt = $link->prepare($sql) ){
+                                    
+                $stmt->bindParam(":nome", $nome, PDO::PARAM_STR);
+
+                $stmt->execute();
+
+                $stmt->bindColumn('id', $id);
+                $stmt->bindColumn('nome', $nome);
+                $stmt->bindColumn('telefone', $telefone);
+                $stmt->bindColumn('email', $email);
+                $stmt->bindColumn('mensagem', $mensagem);
+
+                while( $stmt->fetch(PDO::FETCH_BOUND) ){
+
+                    $objContato = new Contato(
+                            $id,
+                            $nome,
+                            $telefone,
+                            $email,
+                            $mensagem
+                        );
+
+                    $vContatos[] =  $objContato;
+    
+                }
+                
+                $stmt->closeCursor();
+            }
+
+            return $vContatos;
         }
 
     }

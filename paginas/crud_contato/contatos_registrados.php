@@ -27,13 +27,51 @@
 
     }
 
-    $vContatos = Contato::get_contatos();
+    if(isset($_POST['busca_texto'])){
+        if($_POST['busca_por'] == 'id'){
+            $vContatos = Contato::get_contato_por_id($_POST['busca_texto']);
+        }
+        else{
+            $vContatos = Contato::get_contatos_por_nome($_POST['busca_texto']);
+        }
+    }
+    else{
+        $vContatos = Contato::get_contatos();
+    }
 
 ?>
 
 <div class="row">
     <div class="col">
+
+        <form action="" method="POST">
+            <div class="form-group">
+                <label>Buscar por:</label>
+                <select class="form-control" name="busca_por">
+                    <option value="id">ID</option>
+                    <option value="nome">Nome</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Texto:</label>
+                <input type="text" class="form-control" name="busca_texto" required placeholder="Digite o ID ou o Nome a ser buscado..." />
+            </div>
+            <div class="form-button">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+        </form>
+
         <h1>Contatos Registrados</h1>
+
+        <?php 
+
+            if(!$vContatos){
+                echo "Nenhum contato encontrado!";
+            }
+            else{
+
+        ?>
+
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -105,6 +143,10 @@
 
             </tbody>
         </table>
+
+        <?php 
+            }
+        ?>
 
     </div>
 </div>
